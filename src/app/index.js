@@ -1,9 +1,9 @@
 import '../style/app.scss';
-let cellSize = 10;
-let width = 960;
-let height = 500;
-let ctxWidth = width / cellSize;
-let ctxHeight = height / cellSize;
+const cellSize = 10;
+const width = 960;
+const height = 500;
+const ctxWidth = width / cellSize;
+const ctxHeight = height / cellSize;
 let gameInterval = null, canvas, ctx, btnPlay, btnStop;
 
 const initialize2DArray = (w, h) => Array
