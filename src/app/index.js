@@ -1,14 +1,11 @@
 import '../style/app.scss';
-let canvas = document.getElementById('game-board');
-let ctx = canvas.getContext('2d');
 let cellSize = 10;
 let width = 960;
 let height = 500;
-canvas.setAttribute('width', width);
-canvas.setAttribute('height', height);
 let ctxWidth = width / cellSize;
 let ctxHeight = height / cellSize;
-let gameInterval = null, btnPlay, btnStop;
+let gameInterval = null, canvas, ctx, btnPlay, btnStop;
+
 const initialize2DArray = (w, h) => Array
 	.from({ length: h })
 	.map(() => Array.from({ length: w }, () => Math.floor(Math.random() * 2)));
@@ -62,7 +59,7 @@ const play = () => {
 		btnPlay.setAttribute('disabled', true);
 		btnStop.removeAttribute('disabled');
 	}
-}
+};
 
 const stop = () => {
 	if(gameInterval !== null) {
@@ -71,9 +68,21 @@ const stop = () => {
 		btnPlay.removeAttribute('disabled');
 		btnStop.setAttribute('disabled', true);
 	}
-}
+};
+
+const canvasOnClick = e => {
+	let r = Math.round(e.offsetY / cellSize) - 1;
+	let c = Math.round(e.offsetX / cellSize) - 1;
+	board[r][c] = board[r][c] === 0 ? 1 : 0;
+	fillCell(r, c, board[r][c] === 0 ? 'white' : 'firebrick');
+};
 
 window.onload = () => {
+	canvas = document.getElementById('game-board');
+	ctx = canvas.getContext('2d');
+	canvas.setAttribute('width', width);
+	canvas.setAttribute('height', height);
+
 	ctx.beginPath();
 
 	for(let i = 0; i <= width; i += cellSize) {
@@ -88,12 +97,7 @@ window.onload = () => {
 
 	ctx.closePath();
 	ctx.stroke();
-	canvas.addEventListener('click', e => {
-		let r = Math.round(e.offsetY / cellSize) - 1;
-		let c = Math.round(e.offsetX / cellSize) - 1;
-		board[r][c] = board[r][c] === 0 ? 1 : 0;
-		fillCell(r, c, board[r][c] === 0 ? 'white' : 'firebrick');
-	});
+	canvas.addEventListener('click', canvasOnClick);
 
 	btnPlay = document.getElementById('play');
 	btnStop = document.getElementById('stop');
@@ -105,4 +109,5 @@ window.onload = () => {
 window.onunload = () => {
 	btnPlay.removeEventListener('click', play);
 	btnStop.removeEventListener('click', stop);
+	canvas.removeEventListener('click', canvasOnClick);
 };
