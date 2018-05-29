@@ -1,0 +1,12 @@
+@import './imports/normalize';
+@import './imports/skeleton';
+
+.row:not(:last-child) {
+	margin-bottom: 20px;
+}
+
+#game-board {
+	padding: 0;
+	margin: 0;
+	display: block;
+}
