@@ -4,7 +4,8 @@ const width = 960;
 const height = 500;
 const ctxWidth = width / cellSize;
 const ctxHeight = height / cellSize;
-let requestAnimationFrame = false, canvas, ctx, btnPlay, btnStop;
+let requestAnimationFrame = false;
+let canvas, ctx, btnNext, btnPlay, btnStop;
 
 const initialize2DArray = (w, h) => Array
 	.from({ length: h })
@@ -56,6 +57,11 @@ const calculateGameBoard = () => {
 	}
 };
 
+const next = () => {
+	requestAnimationFrame = false;
+	window.requestAnimationFrame(calculateGameBoard);
+};
+
 const play = () => {
 	requestAnimationFrame = true;
 	window.requestAnimationFrame(calculateGameBoard);
@@ -77,7 +83,6 @@ window.onload = () => {
 	ctx = canvas.getContext('2d');
 	canvas.setAttribute('width', width);
 	canvas.setAttribute('height', height);
-
 	ctx.beginPath();
 
 	for(let i = 0; i <= width; i += cellSize) {
@@ -93,9 +98,10 @@ window.onload = () => {
 	ctx.closePath();
 	ctx.stroke();
 	canvas.addEventListener('click', canvasOnClick);
-
+	btnNext = document.getElementById('next');
 	btnPlay = document.getElementById('play');
 	btnStop = document.getElementById('stop');
+	btnNext.addEventListener('click', next);
 	btnPlay.addEventListener('click', play);
 	btnStop.addEventListener('click', stop);
 	window.requestAnimationFrame(calculateGameBoard);
