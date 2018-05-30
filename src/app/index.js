@@ -102,6 +102,7 @@ window.onload = () => {
 };
 
 window.onunload = () => {
+	requestAnimationFrame = false;
 	btnPlay.removeEventListener('click', play);
 	btnStop.removeEventListener('click', stop);
 	canvas.removeEventListener('click', canvasOnClick);
