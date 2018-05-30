@@ -4,7 +4,7 @@ const width = 960;
 const height = 500;
 const ctxWidth = width / cellSize;
 const ctxHeight = height / cellSize;
-let gameInterval = null, canvas, ctx, btnPlay, btnStop;
+let requestAnimationFrame = false, canvas, ctx, btnPlay, btnStop;
 
 const initialize2DArray = (w, h) => Array
 	.from({ length: h })
@@ -51,23 +51,18 @@ const calculateGameBoard = () => {
 		}
 	}
 	board = newBoard;
+	if(requestAnimationFrame === true) {
+		window.requestAnimationFrame(calculateGameBoard);
+	}
 };
 
 const play = () => {
-	if(gameInterval === null) {
-		gameInterval = setInterval(calculateGameBoard, 0);
-		btnPlay.setAttribute('disabled', true);
-		btnStop.removeAttribute('disabled');
-	}
+	requestAnimationFrame = true;
+	window.requestAnimationFrame(calculateGameBoard);
 };
 
 const stop = () => {
-	if(gameInterval !== null) {
-		clearInterval(gameInterval);
-		gameInterval = null;
-		btnPlay.removeAttribute('disabled');
-		btnStop.setAttribute('disabled', true);
-	}
+	requestAnimationFrame = false;
 };
 
 const canvasOnClick = e => {
@@ -103,7 +98,7 @@ window.onload = () => {
 	btnStop = document.getElementById('stop');
 	btnPlay.addEventListener('click', play);
 	btnStop.addEventListener('click', stop);
-	calculateGameBoard();
+	window.requestAnimationFrame(calculateGameBoard);
 };
 
 window.onunload = () => {
