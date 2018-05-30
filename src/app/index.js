@@ -58,13 +58,16 @@ const calculateGameBoard = () => {
 };
 
 const next = () => {
-	requestAnimationFrame = false;
-	window.requestAnimationFrame(calculateGameBoard);
+	if(requestAnimationFrame === false) {
+		window.requestAnimationFrame(calculateGameBoard);
+	}
 };
 
 const play = () => {
-	requestAnimationFrame = true;
-	window.requestAnimationFrame(calculateGameBoard);
+	if(requestAnimationFrame === false) {
+		requestAnimationFrame = true;
+		window.requestAnimationFrame(calculateGameBoard);
+	}
 };
 
 const stop = () => {
